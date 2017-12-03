@@ -1,0 +1,29 @@
+<form class="text-class nice-form" action="/posts/<%= @pageuser.id %>" method="post">
+  <label>Write something...</label><br>
+  <textarea class="post-content" name="content" rows="10" cols="50" maxlength="150" onkeyup="calcChars(this)"></textarea>
+  <div class="form-submit"><span><small><b>150</b></small></span><small> characters left</small><br><input type="submit" value="Share"></div>
+</form>
+<% lastpost = (@posts.last.id) %>
+<% lastpost_minus = (@posts.last.id)-10%>
+<% (lastpost).downto(lastpost_minus).each do |i| %>
+  <div class="post-box">
+      <br>
+    <p><%= @posts.find_by_id(i).content %> </p>
+      <br>
+      <p>
+        <small>
+          Posted by: <a href="/profile/<%=User.find_by_id(@posts.find_by_id(i).user_id).id%>"><%= User.find_by_id(@posts.find_by_id(i).user_id).username %></a>
+        </small>
+      </p>
+      <p>
+        <small>
+          <em>
+            Posted on: <%= (@posts.find_by_id(i).created_at).localtime.strftime("%B %d, %Y %I:%M:%S %p") %>
+          </em>
+        </small>
+      </p>
+      <% if @pageuser.id == @posts.find_by_id(i).user_id %>
+        <small><a href="/postsedit/<%=@posts.find_by_id(i).id%>">Edit</a></small>
+      <% end %>
+  </div>
+<% end %>

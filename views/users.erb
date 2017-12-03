@@ -1,0 +1,8 @@
+<h1>Find a friend!</h1>
+<div class="friend-grid">
+    <% @users.each do |user| %>
+      <article class="friend-card">
+      <a class="friend-link" href="/profile/<%= user.id %>"><%= user.username %></a>
+    </article>
+    <% end %>
+</div>
